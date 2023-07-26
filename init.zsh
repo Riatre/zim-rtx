@@ -21,7 +21,7 @@
   fi
 
   # generating completions
-  local compfile="$1/functions/_rtx"
+  local compfile="$1/_rtx"
   if [[ ! -e "$compfile" || "$compfile" -ot "$command" ]]; then
     "$command" complete --shell zsh >| "$compfile"
   fi
