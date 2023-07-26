@@ -10,6 +10,16 @@
 
   source "$activatefile"
 
+  if (( $+functions[_rtx_hook] )); then
+    function _self_destruct_rtx_hook {
+        _rtx_hook
+        # remove self from precmd
+        precmd_functions=(${(@)precmd_functions:#_self_destruct_rtx_hook})
+        builtin unfunction _self_destruct_rtx_hook
+    }
+    precmd_functions=( _self_destruct_rtx_hook ${(@)precmd_functions:#_rtx_hook} )
+  fi
+
   # generating completions
   local compfile="$1/functions/_rtx"
   if [[ ! -e "$compfile" || "$compfile" -ot "$command" ]]; then
